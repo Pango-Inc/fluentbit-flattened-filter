@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  fluent-bit:
+    container_name: fluent-bit
+    image: fluent/fluent-bit:1.4.6
+    ports:
+    - 24024:24024
+    environment:
+    - LUA_FLATTENED_PATH=log.message
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./flattened.lua:/fluent-bit/etc/flattened.lua
+    depends_on:
+    - elasticsearch
+  elasticsearch:
+    container_name: elastic
+    hostname: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.1
+    environment:
+    - discovery.type=single-node
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+    - 9200:9200
+    volumes:
+    - esdata:/usr/share/elasticsearch/data
+  kibana:
+    container_name: kibana
+    image: kibana:6.7.1
+    ports:
+    - 5601:5601
+    depends_on:
+    - elasticsearch
+
+volumes:
+  esdata:
+    driver: local
