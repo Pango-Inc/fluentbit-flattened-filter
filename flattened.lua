@@ -36,43 +36,43 @@ end
 
 -- split string by @sep
 local function split(text)
-  local res = {}
-  local t = {}
-  local count = string.len(text) + 1
-  for i = 1, count do
-    local char = string.sub(text, i, i)
-    if char == sep or i == count then
-      table.insert(res, table.concat(t))
-      t = {}
-    else
-      table.insert(t, char)
+    local res = {}
+    local t = {}
+    local count = string.len(text) + 1
+    for i = 1, count do
+        local char = string.sub(text, i, i)
+        if char == sep or i == count then
+            table.insert(res, table.concat(t))
+            t = {}
+        else
+            table.insert(t, char)
+        end
     end
-  end
-  return res
+    return res
 end
 
 local paths = split(fpaths)
 
 -- retrieve nested table
 local function get_nested(t)
-  local nested_record = t
-  for _, val in pairs(paths) do
-    nested_record = nested_record[val]
-  end
-  return nested_record
+    local nested_record = t
+    for _, val in pairs(paths) do
+        nested_record = nested_record[val]
+    end
+    return nested_record
 end
 
 -- put nested table back after modification
 local function put_nested(tp, tch)
-  local parent = tp
-  local child = tch
-  local t = {}
-  for i=#paths, 2, -1 do
-    t[paths[i]] = child
-    child = t
-  end
-  parent[paths[1]] = child
-  return parent
+    local parent = tp
+    local child = tch
+    local t = {}
+    for i=#paths, 2, -1 do
+        t[paths[i]] = child
+        child = t
+    end
+    parent[paths[1]] = child
+    return parent
 end
 
 -- main function, should be executed by fluent-bit

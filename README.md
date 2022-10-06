@@ -39,7 +39,7 @@ to
 It is possible to configure script parameters via environment variables:
 ```
 LUA_FLATTENED_PATH - path to part of log object to be converted, in example above it is set to "logs.message"
-LUA_FLATTENED_SEPARATOR - in example above it is use default value '.'
+LUA_FLATTENED_SEPARATOR - in example above default value '.' is used.
 ```
 
 ### Kubernetes
@@ -102,7 +102,7 @@ then open `localhost:5601` to see results in Kibana.
 ### Linting
 
 ```sh
-luacheck --globals main -- flattened.lua
+luacheck --globals flattened -- flattened.lua
 ```
 
 ### Testing
