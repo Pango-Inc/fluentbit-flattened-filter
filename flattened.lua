@@ -57,7 +57,9 @@ local paths = split(fpaths)
 local function get_nested(t)
     local nested_record = t
     for _, val in pairs(paths) do
-        nested_record = nested_record[val]
+        if type(nested_record) == 'table' then
+            nested_record = nested_record[val]
+        end
     end
     return nested_record
 end
@@ -79,12 +81,16 @@ end
 function flattened(tag, timestamp, record)
     local _ = tag
     local nt = get_nested(record)
-    local fnt = flatten(nt)
-    local fnst = {}
-    for k,v in pairs(fnt) do
-        fnst[#fnst+1] = to_string(k,v)
+    if type(nt) == 'table' then
+        local fnt = flatten(nt)
+        local fnst = {}
+        for k,v in pairs(fnt) do
+            fnst[#fnst+1] = to_string(k,v)
+        end
+        local fns = table.concat(fnst,", ")
+        record = put_nested(record, fns)
+        return 2, timestamp, record
+    else
+        return 0, timestamp, record
     end
-    local fns = table.concat(fnst,", ")
-    record = put_nested(record, fns)
-    return 2, timestamp, record
 end
