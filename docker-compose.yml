@@ -4,7 +4,7 @@ services:
     container_name: fluent-bit
     image: fluent/fluent-bit:1.4.6
     ports:
-    - 24024:24024
+    - 24020:24020
     environment:
     - LUA_FLATTENED_PATH=log.message
     volumes:

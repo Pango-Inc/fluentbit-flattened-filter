@@ -20,6 +20,9 @@ local test_cases = {
     case5 = {
         [{date = "2022-10-06T01:12:11.099408022-07:00"}] = {date = "2022-10-06T01:12:11.099408022-07:00"}
     },
+    case6 = {
+        [{log = {message = {foo = true}}}] = {log = {message = "\"foo\": \"true\""}}
+    }
 }
 
 local function pairsByKeys (t, f)
