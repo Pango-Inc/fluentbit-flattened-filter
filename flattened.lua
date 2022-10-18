@@ -25,11 +25,11 @@ end
 local function to_string(k,v)
     local s = {}
     s[#s+1]="\""
-    s[#s+1]=k
+    s[#s+1]=tostring(k)
     s[#s+1]="\""
     s[#s+1]=": "
     s[#s+1]="\""
-    s[#s+1]=v
+    s[#s+1]=tostring(v)
     s[#s+1]="\""
     return table.concat(s)
 end
